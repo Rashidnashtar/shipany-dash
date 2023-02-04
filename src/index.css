@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+
+:root {
+  --main-blue: #0063d3;
+  --main-gray: #888;
+  --main-border: #ddd;
+  --secandary-blue: #0075ff;
+  --main-red: #ff6155;
+  --secandary-red: #f00;
+  --main-yellow: #f6d400;
+  --main-bold: #031b2c;
+  --main-skyblue: #208695;
+  --main-bg-color: #eee;
+  --main-trasparent: rgba(255, 255, 255, 0.25);
+}
+
+input[type="search"]::-ms-clear {
+  display: none;
+  width: 0;
+  height: 0;
+}
+input[type="search"]::-ms-reveal {
+  display: none;
+  width: 0;
+  height: 0;
+}
+/* clears the ‘X’ from Chrome */
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+  display: none;
+}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
