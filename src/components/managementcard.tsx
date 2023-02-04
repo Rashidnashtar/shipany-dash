@@ -20,9 +20,9 @@ interface Props {
 }
 const ManagementCard: React.FC = () => {
   return (
-    <div className="management-card flex items-center p-4ذ justify-between gap-4 text-center ">
+    <div className="management-card flex items-center p-4 justify-between gap-4 text-center ">
       <p className=" capitalize font-bold whitespace-nowrap">
-        {getName("رشيد", "أحمد", "نشتر")}
+        {getName("محمد رشيد", "أحمد", "نشتر")}
       </p>
       <p className="">958712199</p>
       <p className="">2</p>

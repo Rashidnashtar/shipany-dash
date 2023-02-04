@@ -43,7 +43,7 @@ const PendingList: React.FC = () => {
           <i className="bi bi-bell"></i>
         )}
       </div>
-      <div className="requests-container">
+      <div className="requests-container flex flex-col">
         <PendingCard isStudent />
         <PendingCard isStudent />
         <PendingCard isTeacher />
