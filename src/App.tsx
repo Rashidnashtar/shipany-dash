@@ -1,15 +1,17 @@
 import "./app.css";
-import Navbar from "./components/navbar";
-import Management from "./components/management";
-import PendingList from "./components/pending-list";
+import Main from "./pages/main";
+import Join from "./pages/join";
+import { Routes, Route } from "react-router-dom";
+import PrivateRoute from "./components/assets/privateroute";
 function App() {
   return (
     <div className="app">
-      <div className="main-container h-screen flex flex-row gap-2  ">
-        <Navbar />
-        <Management />
-        <PendingList />
-      </div>
+      <Routes>
+        <Route element={<PrivateRoute />}>
+          <Route path="/" element={<Main />} />
+        </Route>
+        <Route path="/join" element={<Join />} />
+      </Routes>
     </div>
   );
 }

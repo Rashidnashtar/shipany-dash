@@ -6,3 +6,5 @@ export const getName = (first: string, father: string | null, last: string) => {
 };
 export const isItAllArabic = (string: string) =>
   !/[^\u0600-\u06FF ]/.test(string);
+
+export const isItAllNumbers = (string: string) => !/[^$,\.\d]/.test(string);
