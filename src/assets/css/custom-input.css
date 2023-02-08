@@ -1,0 +1,13 @@
+.custom-label {
+}
+.custom-label:focus-within > span::after {
+  content: attr(data-info) "";
+  padding-right: 8px;
+}
+@media (max-width: 772px) {
+  .custom-label:focus-within > span::after,
+  .custom-label:focus-within > span {
+    padding-right: 3px;
+    font-size: 0.7em;
+  }
+}

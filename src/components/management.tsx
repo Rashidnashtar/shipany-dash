@@ -3,8 +3,14 @@ import ManagementCard from "./managementcard";
 import Pagination from "./assets/pagination";
 import CustomSearch from "./assets/custom-search";
 import { useState, ChangeEvent } from "react";
+import { useLocation } from "react-router-dom";
 import { isItAllArabic } from "../assets/js/helpers";
-const Management: React.FC = () => {
+interface props {
+  isStudents?: boolean;
+  isTeachers?: boolean;
+  isBooks?: boolean;
+}
+const Management: React.FC<props> = ({ isStudents, isTeachers, isBooks }) => {
   // pagination ...............................................
   const ITEMS_PER_PAGE = 6;
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
@@ -38,7 +44,7 @@ const Management: React.FC = () => {
         إدارة
       </h1>
       <CustomSearch
-        placeholder="......ابحث عن طالب "
+        placeholder="ابحث باللغة العربية.......... "
         searchValue={searchValue}
         handleSearch={handleSearch}
       />

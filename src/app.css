@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  direction: ltr;
+  direction: rtl;
   font-family: "Noto Kufi Arabic", sans-serif;
 }
 
@@ -24,6 +24,16 @@ body::-webkit-scrollbar-thumb {
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
-  background-color: var(--separator-fill);
+  background-color: var(--main-gray);
   outline: 1px solid #000;
+}
+.notValid input,
+.notValid input:focus {
+  border-color: var(--main-red);
+}
+.notValid span {
+  color: var(--main-red);
+}
+.ltr {
+  direction: ltr;
 }

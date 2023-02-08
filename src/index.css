@@ -31,6 +31,7 @@ input[type="search"]::-webkit-search-results-button,
 input[type="search"]::-webkit-search-results-decoration {
   display: none;
 }
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

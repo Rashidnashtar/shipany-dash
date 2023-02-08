@@ -1,8 +1,13 @@
 import { Outlet, Navigate } from "react-router-dom";
 const PrivateRoute: React.FC = () => {
-  console.log("dafdsafa");
+
   let auth = { token: true };
-  return auth.token ? <Outlet /> : <Navigate to="/join" />;
+  let joined = true;
+  if (auth.token && joined) {
+    return <Outlet />;
+  } else if (auth.token && !joined) {
+    return <Navigate to="/join" />;
+  } else return <Navigate to="/login" />;
 };
 
 export default PrivateRoute;

@@ -4,11 +4,10 @@ interface props {
   isFather?: boolean;
 }
 const PendingCard: React.FC<props> = ({ isTeacher, isFather, isStudent }) => {
-  const buttonStyles = "px-3 py-1 rounded transition-all duration-300";
   const roleStyles = "text-xs font-bold text-right";
 
   return (
-    <div className="flex flex-row-reverse border-b border-main-border px-2 py-1 items-center justify-between">
+    <div className="flex  border-b border-main-border px-2 py-1 items-center justify-between">
       <div className="flex flex-col justify-between">
         <p className="text-sm font-bold">محمد رشيد نشتر</p>
         {/* isTeacher  */}

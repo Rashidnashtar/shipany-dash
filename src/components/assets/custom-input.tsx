@@ -1,5 +1,6 @@
 import { ChangeEvent } from "react";
 import { isItAllArabic, isItAllNumbers } from "../../assets/js/helpers";
+import "../../assets/css/custom-input.css";
 interface props {
   id: string;
   value: string;
@@ -9,6 +10,7 @@ interface props {
   pattern: string;
   handleChange: any;
   arabicTitle: string;
+  errorMsg?: string;
   dataInfo?: string;
   isNotRequired?: boolean;
   maxLength?: number;
@@ -38,9 +40,11 @@ const CustomInput: React.FC<props> = ({
     const { name, value, validity, parentElement } =
       event.target as HTMLInputElement;
     if (!validity.valid) {
-      parentElement?.classList.add("text-main-red border border-main-red");
+      parentElement?.classList.add("notValid");
+      event.target.classList.add("notValid");
     } else {
-      parentElement?.classList.remove("text-main-red border border-main-red");
+      parentElement?.classList.remove("notValid");
+      event.target.classList.remove("notValid");
     }
     // Arabic inputs Vaildation
     if (isArabic && !isItAllArabic(value)) return;
@@ -52,11 +56,13 @@ const CustomInput: React.FC<props> = ({
     if (isClassNumber && (+value > 12 || +value < 1)) {
       parentElement?.classList.add("text-main-red border border-main-red");
     }
-    // confirme Password Vaildation
     handleChange(value, name, parentElement);
   };
   return (
-    <label htmlFor={id} className={`${isPhone ? "flex" : ""}`}>
+    <label
+      htmlFor={id}
+      className={"custom-label relative text-xl mb-1 mt-3  group flex"}
+    >
       <input
         onChange={handelLocalChange}
         type={type}
@@ -67,10 +73,30 @@ const CustomInput: React.FC<props> = ({
         pattern={pattern}
         required={!!!isNotRequired}
         maxLength={maxLength || undefined}
-        className={`${isPhone ? "clasfag" : ""}`}
+        className={
+          "peer text-sm rounded-lg w-full h-11 py-3 mt-5 border border-main-gray focus:border-main-blue focus:outline-none   transition-all duration-300 bg-white pr-3 placeholder:opacity-0 focus:placeholder:opacity-100  " +
+          " " +
+          `${
+            isPhone
+              ? "clasfag ltr text-left pl-1 rounded-none rounded-r-xl "
+              : ""
+          }`
+        }
       />
-      {isPhone && <p className="static-pre-number">{staticPhoneNum}</p>}
-      <span data-info={dataInfo}>{arabicTitle}</span>
+      {isPhone && (
+        <p className="bg-main-gray text-white h-11 rounded-l-lg peer- transition-all duration-300 self-end text-sm w-16 flex justify-center items-center  ">
+          {staticPhoneNum}
+        </p>
+      )}
+      <span
+        className={
+          "  absolute top-0 right-1 translate-y-8 text-lg pr-1 transition-all duration-300 peer-focus-within:-translate-y-2 wit peer-focus-within:text-main-blue group-focus-within:-translate-y-3 group-focus-within:text-main-blue  " +
+          " "
+        }
+        data-info={dataInfo}
+      >
+        {arabicTitle}
+      </span>
     </label>
   );
 };

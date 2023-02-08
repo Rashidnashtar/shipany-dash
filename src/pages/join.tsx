@@ -6,7 +6,7 @@ const Join: React.FC = () => {
   const navigate = useNavigate();
   const handleSubmit = () => {
     if (import.meta.env.VITE_REACT_ADMIN_PASSWORD === password) {
-      navigate("/", "تم التسجيل بنجاح");
+      navigate("/");
     } else {
       setIsValid(false);
     }
@@ -19,7 +19,7 @@ const Join: React.FC = () => {
         <label className="relative" htmlFor="pass">
           <input
             className={
-              "w-2/3 outline-none border border-main-gray focus:border-main-blue focus:scale-105 rounded transition-all duration-300 placeholder-shown:text-right py-2 px-1" +
+              "w-2/3 outline-none border border-main-gray focus:border-main-blue focus:scale-105 rounded-lg transition-all duration-300 placeholder-shown:text-right py-2 px-1" +
               " " +
               `${isvalid ? "" : " border-main-red focus:border-main-red "}`
             }
@@ -45,7 +45,7 @@ const Join: React.FC = () => {
         </label>
         <button
           onClick={handleSubmit}
-          className="px-4 rounded text-white hover:bg-secandary-blue transition-all duration-300   py-1 bg-main-blue w-fit mx-auto "
+          className="px-4 rounded text-white hover:bg-secandary-blue transition-all duration-300  py-1 bg-main-blue w-1/2 mt-3 mx-auto "
         >
           دخول
         </button>

@@ -23,6 +23,9 @@ module.exports = {
       width: {
         "280px": "280px",
       },
+      padding: {
+        "5vh": "5vh",
+      },
     },
   },
   plugins: [],

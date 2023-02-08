@@ -20,7 +20,7 @@ interface Props {
 }
 const ManagementCard: React.FC = () => {
   return (
-    <div className="management-card flex items-center p-4 justify-between gap-4 text-center ">
+    <div className="management-card flex  items-center p-4 justify-evenly gap-4 text-center ">
       <p className=" capitalize font-bold whitespace-nowrap">
         {getName("محمد رشيد", "أحمد", "نشتر")}
       </p>
@@ -33,11 +33,11 @@ const ManagementCard: React.FC = () => {
       </p>
       {/* <img className="w-16 h-16 rounded-full" src={image} alt="" /> */}
       <div className="flex gap-1">
-        <button className="btn-1 focus:outline-none text-xl px-4  rounded-sm">
-          تعديل
-        </button>
         <button className="btn-2 focus:outline-none text-xl px-4  rounded-sm">
           حذف
+        </button>
+        <button className="btn-1 focus:outline-none text-xl px-4  rounded-sm">
+          تعديل
         </button>
       </div>
     </div>
