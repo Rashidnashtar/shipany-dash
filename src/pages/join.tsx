@@ -1,14 +1,17 @@
 import { ChangeEvent, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Join: React.FC = () => {
   const [password, setPassword] = useState("");
   const [isvalid, setIsValid] = useState(true);
   const navigate = useNavigate();
   const handleSubmit = () => {
     if (import.meta.env.VITE_REACT_ADMIN_PASSWORD === password) {
-      navigate("/");
+      toast.success("مرحباً بك سيد راسي")
+      navigate('/')
     } else {
       setIsValid(false);
+      toast.error("روح العب بعيد")
     }
   };
 

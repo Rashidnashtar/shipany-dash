@@ -1,5 +1,5 @@
 import "../assets/css/management.css";
-import ManagementCard from "./managementcard";
+import ManagementCard from "./management-card";
 import Pagination from "./assets/pagination";
 import CustomSearch from "./assets/custom-search";
 import { useState, ChangeEvent } from "react";

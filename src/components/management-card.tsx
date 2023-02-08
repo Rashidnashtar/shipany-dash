@@ -1,5 +1,5 @@
 import { getName } from "../assets/js/helpers";
-import image from "../assets/images/image.jpg";
+// import image from "../assets/images/image.jpg";
 interface Props {
   // if teacher or student
   first_name?: string;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../assets/css/pending-list.css";
-import PendingCard from "./pendingcard";
+import PendingCard from "./pending-card";
 import Pagination from "./assets/pagination";
 const PendingList: React.FC = () => {
   const [active, setActive] = useState(0);
