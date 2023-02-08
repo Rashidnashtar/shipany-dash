@@ -28,12 +28,14 @@ body::-webkit-scrollbar-thumb {
   outline: 1px solid #000;
 }
 .notValid input,
-.notValid input:focus {
+.notValid input:focus,
+.notValid input:focus + span {
   border-color: var(--main-red);
 }
 .notValid span {
   color: var(--main-red);
 }
+
 .ltr {
   direction: ltr;
 }

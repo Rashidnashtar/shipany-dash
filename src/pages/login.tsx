@@ -1,10 +1,16 @@
 import CustomInput from "./../components/assets/custom-input";
-import { useState } from "react";
+import { isItAllNumbers } from "../assets/js/helpers";
+import { FormEvent, useState } from "react";
 const Login = () => {
   const [userCred, setUserCred] = useState({
     phoneNumber: "",
     password: "",
   });
+  const [formErrors, setFormErrors] = useState({
+    phoneNumber: "",
+    password: "",
+  });
+
   const handleChange = (
     value: string,
     name: string,
@@ -12,7 +18,27 @@ const Login = () => {
   ) => {
     console.log(value, "dsklfjkadsl  ", name);
     setUserCred({ ...userCred, [name]: value });
+    // reset error message
+    setFormErrors({ ...formErrors, [name]: "" });
   };
+
+  const handleSubmit = (event: FormEvent) => {
+    event.preventDefault();
+    // validation error message
+    if (
+      !isItAllNumbers(userCred.phoneNumber) ||
+      userCred.phoneNumber.length < 9
+    ) {
+      setFormErrors({ ...formErrors, phoneNumber: "رجاءً اكتب رقم صحيح" });
+    }
+    if (userCred.password.length < 8) {
+      setFormErrors({
+        ...formErrors,
+        password: "يجب ان تكون أكثر من ثماني أحرف",
+      });
+    }
+  };
+
   return (
     <div className="ltr flex flex-col justify-center items-center h-screen pt-[5vh] p-2">
       <h1 className="text-5xl mb-2  text-center">تسجيل دخول إلى الإدارة </h1>
@@ -34,6 +60,7 @@ const Login = () => {
           staticPhoneNum="963+"
           isPhone
         />
+        <p className="text-main-red">{formErrors.phoneNumber}</p>
         <CustomInput
           id="password"
           type="password"
@@ -44,7 +71,12 @@ const Login = () => {
           value={userCred.password}
           handleChange={handleChange}
         />
-        <button className="px-4 rounded text-white text-lg hover:bg-secandary-blue transition-all duration-300   py-1 bg-main-blue w-1/2 block mt-5 mx-auto">
+        <p className="text-main-red">{formErrors.password}</p>
+
+        <button
+          onClick={handleSubmit}
+          className="px-4 rounded text-white text-lg hover:bg-secandary-blue transition-all duration-300   py-1 bg-main-blue w-1/2 block mt-5 mx-auto"
+        >
           دخول
         </button>
       </form>

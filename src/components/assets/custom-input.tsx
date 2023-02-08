@@ -54,7 +54,7 @@ const CustomInput: React.FC<props> = ({
 
     //  Class Number Vaildation
     if (isClassNumber && (+value > 12 || +value < 1)) {
-      parentElement?.classList.add("text-main-red border border-main-red");
+      parentElement?.classList.add("notValid");
     }
     handleChange(value, name, parentElement);
   };
@@ -90,7 +90,7 @@ const CustomInput: React.FC<props> = ({
       )}
       <span
         className={
-          "  absolute top-0 right-1 translate-y-8 text-lg pr-1 transition-all duration-300 peer-focus-within:-translate-y-2 wit peer-focus-within:text-main-blue group-focus-within:-translate-y-3 group-focus-within:text-main-blue  " +
+          "  absolute top-0 right-1 translate-y-8 text-lg pr-1 transition-all duration-300 peer-focus-within:-translate-y-2 wit  group-focus-within:-translate-y-3   " +
           " "
         }
         data-info={dataInfo}
