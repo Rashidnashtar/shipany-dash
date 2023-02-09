@@ -21,22 +21,28 @@ const Login = () => {
     // reset error message
     setFormErrors({ ...formErrors, [name]: "" });
   };
-
+  const validate = (values: any) => {
+    // validation error message
+    let errors = {
+      phoneNumber: "",
+      password: "",
+    };
+    if (
+      !isItAllNumbers(values.phoneNumber) ||
+      values.phoneNumber.length < 9 ||
+      values.phoneNumber[0] !== "9"
+    ) {
+      errors.phoneNumber = "رجاءً اكتب رقم صحيح";
+    }
+    if (values.password.length < 8) {
+      errors.password = "يجب ان تكون أكثر من ثماني أحرف";
+    }
+    return errors;
+  };
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    // validation error message
-    if (
-      !isItAllNumbers(userCred.phoneNumber) ||
-      userCred.phoneNumber.length < 9
-    ) {
-      setFormErrors({ ...formErrors, phoneNumber: "رجاءً اكتب رقم صحيح" });
-    }
-    if (userCred.password.length < 8) {
-      setFormErrors({
-        ...formErrors,
-        password: "يجب ان تكون أكثر من ثماني أحرف",
-      });
-    }
+    // stting error message
+    setFormErrors(validate(userCred));
   };
 
   return (
@@ -51,7 +57,7 @@ const Login = () => {
           id="ph-number"
           type="tel"
           name="phoneNumber"
-          placeholder="939214120"
+          placeholder="939214120" 
           pattern="^[9].{7}\d"
           arabicTitle=" رقم الهاتف"
           value={userCred.phoneNumber}
@@ -60,7 +66,9 @@ const Login = () => {
           staticPhoneNum="963+"
           isPhone
         />
-        <p className="text-main-red">{formErrors.phoneNumber}</p>
+        {formErrors.phoneNumber && (
+          <p className="text-main-red">{formErrors.phoneNumber}</p>
+        )}
         <CustomInput
           id="password"
           type="password"
@@ -71,7 +79,9 @@ const Login = () => {
           value={userCred.password}
           handleChange={handleChange}
         />
-        <p className="text-main-red">{formErrors.password}</p>
+        {formErrors.password && (
+          <p className="text-main-red">{formErrors.password}</p>
+        )}
 
         <button
           onClick={handleSubmit}

@@ -21,7 +21,7 @@ module.exports = {
         "280px": "280px",
       },
       width: {
-        "280px": "280px",
+        "290px": "290px",
       },
       padding: {
         "5vh": "5vh",

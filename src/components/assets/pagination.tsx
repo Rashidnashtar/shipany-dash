@@ -36,7 +36,7 @@ const Pagination: React.FC<Props> = ({
           isPending
             ? "w-full absolute bottom-12 justify-evenly translate-x-1/2 -left-1/2"
             : // styles for other components
-              "lg:w-1/3  w-2/3 justify-between"
+              "lg:w-1/3  w-2/3 justify-between "
         }`
       }
     >

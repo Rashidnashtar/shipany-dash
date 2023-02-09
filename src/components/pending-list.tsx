@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "../assets/css/pending-list.css";
 import PendingCard from "./pending-card";
 import Pagination from "./assets/pagination";
@@ -20,10 +20,30 @@ const PendingList: React.FC = () => {
   };
   //.............................................................
 
+  // handle clicking outside of the Pending List.................
+  const ref = useRef(null);
+  useEffect(() => {
+    document.body.addEventListener("mousedown", (e) => {
+      //@ts-ignore
+      if (!ref.current!.contains(e.target)) {
+        setActive(0);
+      }
+    });
+    return document.body.removeEventListener("mousedown", (e) => {
+      //@ts-ignore
+      if (!ref.current!.contains(e.target)) {
+        setActive(0);
+      }
+    });
+  }, []);
+
+  // ............................................................
+
   return (
     <div
+      ref={ref}
       className={`pending-list bg-white ml-10  p-3 fixed top-0  z-50 w-[280px]   h-full border-l-8 border-main-blue transition-all duration-300  ${
-        active === 1 ? "right-0" : "-right-[280px]"
+        active === 1 ? "right-0" : "-right-[290px]"
       }`}
     >
       <h1 className="text-main-blue text-center text-2xl mb-2  ">
@@ -34,7 +54,7 @@ const PendingList: React.FC = () => {
           active === 0 ? setActive(1) : setActive(0);
         }}
         className={`w-12 h-12 bg-main-gray absolute top-14 transition-all duration-300 shadow-md hover:shadow-main-gray  cursor-pointer flex items-center justify-center text-white text-3xl rounded ${
-          active ? "-left-14" : "-left-16"
+          active ? "-left-14" : "-left-20"
         }`}
       >
         {active ? (

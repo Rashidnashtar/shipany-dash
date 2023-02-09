@@ -3,7 +3,6 @@ import ManagementCard from "./management-card";
 import Pagination from "./assets/pagination";
 import CustomSearch from "./assets/custom-search";
 import { useState, ChangeEvent } from "react";
-import { useLocation } from "react-router-dom";
 import { isItAllArabic } from "../assets/js/helpers";
 interface props {
   isStudents?: boolean;
@@ -48,20 +47,32 @@ const Management: React.FC<props> = ({ isStudents, isTeachers, isBooks }) => {
         searchValue={searchValue}
         handleSearch={handleSearch}
       />
-      <div className="items-container flex-1 flex flex-col gap-2 ">
+      <table className=" flex-1 text-center text-sm sm:text-xl  ">
+        <tr className=" p-4  font-bold">
+          {(isStudents || isTeachers) && <th className=" ">الاسم</th>}
+          {(isStudents || isTeachers) && <th className="">الرقم</th>}
+          {isStudents && <th className="">الصف</th>}
+          {isBooks && (
+            <>
+              <th className="">اسم الكتاب</th>
+              <th className="  ">وصف الكتاب</th>
+            </>
+          )}
+          <th>{""}</th>
+        </tr>
         <ManagementCard />
         <ManagementCard />
         <ManagementCard />
         <ManagementCard />
         <ManagementCard />
         <ManagementCard />
-        <Pagination
-          currentPageNumber={currentPageNumber}
-          totalPages={totalPages}
-          paginate={paginate}
-          itemsPerPage={ITEMS_PER_PAGE}
-        />
-      </div>
+      </table>
+      <Pagination
+        currentPageNumber={currentPageNumber}
+        totalPages={totalPages}
+        paginate={paginate}
+        itemsPerPage={ITEMS_PER_PAGE}
+      />
     </div>
   );
 };
