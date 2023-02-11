@@ -3,12 +3,13 @@ import ManagementCard from "./management-card";
 import Pagination from "./assets/pagination";
 import CustomSearch from "./assets/custom-search";
 import { useState, ChangeEvent } from "react";
-import { isItAllArabic } from "../assets/js/helpers";
+import { fetchApi, isItAllArabic } from "../assets/js/helpers";
 import { useQuery } from "react-query";
-import axios from "axios";
+
 import PageLoader from "./assets/page-loader";
 import CustomPopup from "./assets/custom-popup";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+
 interface props {
   isStudents?: boolean;
   isTeachers?: boolean;
@@ -19,20 +20,17 @@ const Management: React.FC<props> = (props) => {
   const { isStudents, isTeachers, isBooks, isSubjects } = props;
   const navigate = useNavigate();
   // fetching .................................................
-  const fetchingName = `${
-    isStudents
+  const fetchingName = `${isStudents
       ? "students"
       : isTeachers
-      ? "teachers"
-      : isBooks
-      ? "books"
-      : isSubjects
-      ? "subjects"
-      : ""
-  }`;
-  const { isError, isLoading, data } = useQuery([fetchingName], () => {
-    return axios.get(import.meta.env.VITE_REACT_APP_BACKEND_URI + fetchingName);
-  });
+        ? "teachers"
+        : isBooks
+          ? "books"
+          : isSubjects
+            ? "subjects"
+            : ""
+    }`;
+  const { isError, isLoading, data } = useQuery([fetchingName], () => fetchApi(fetchingName));
   console.log(data);
   if (isError) {
     console.log("kdsl;fjals;dkfjlkskadjflksdjflsdfjlsadflk");

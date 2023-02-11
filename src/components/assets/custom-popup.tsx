@@ -1,4 +1,5 @@
 import React from "react";
+
 interface props {
   title: string;
   setIsPopupShown: any;

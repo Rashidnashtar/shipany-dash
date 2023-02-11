@@ -1,11 +1,14 @@
 import CustomInput from "./../components/assets/custom-input";
-import { isItAllNumbers } from "../assets/js/helpers";
+import { fetchApi, isItAllNumbers } from "../assets/js/helpers";
 import { FormEvent, useState, useRef } from "react";
 import { useMutation } from "react-query";
 import axios from "axios";
 import PageLoader from "../components/assets/page-loader";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
+
+  // TODO: use the fetchApi here
+
   const [userCred, setUserCred] = useState({
     phoneNumber: "",
     password: "",
