@@ -2,8 +2,40 @@ import { useEffect, useRef, useState } from "react";
 import "../assets/css/pending-list.css";
 import PendingCard from "./pending-card";
 import Pagination from "./assets/pagination";
+import axios from "axios";
+import { useQuery } from "react-query";
+import Loader from "./assets/loader";
 const PendingList: React.FC = () => {
+  const fetchPendingTeachers = () => {
+    return axios.get(
+      import.meta.env.VITE_REACT_APP_BACKEND_URI + "all_pending_Teachers"
+    );
+  };
+  const fetchPendingStudents = () => {
+    return axios.get(
+      import.meta.env.VITE_REACT_APP_BACKEND_URI + "all_pending_students"
+    );
+  };
+  const fetchPendingFathers = () => {
+    return axios.get(
+      import.meta.env.VITE_REACT_APP_BACKEND_URI + "all_pending_Fathers"
+    );
+  };
   const [active, setActive] = useState(0);
+  // handle fetching ..........................................
+  const { isLoading: isLoadingTeachers, data: teachersData } = useQuery(
+    [["pending-users"]],
+    fetchPendingTeachers
+  );
+  const { isLoading: isLoadingStudents, data: studentData } = useQuery(
+    [["pending-students"]],
+    fetchPendingStudents
+  );
+  const { isLoading: isLoadingFathers, data: fathersData } = useQuery(
+    [["pending-students"]],
+    fetchPendingFathers
+  );
+  // ..........................................................
 
   // pagination ...............................................
   const ITEMS_PER_PAGE = 30;
@@ -42,7 +74,7 @@ const PendingList: React.FC = () => {
   return (
     <div
       ref={ref}
-      className={`pending-list bg-white ml-10  p-3 fixed top-0  z-50 w-[280px]   h-full border-l-8 border-main-blue transition-all duration-300  ${
+      className={`pending-list bg-white ml-10  p-3 fixed top-0  z-10 w-[280px]   h-full border-l-8 border-main-blue transition-all duration-300  ${
         active === 1 ? "right-0" : "-right-[290px]"
       }`}
     >
@@ -63,26 +95,30 @@ const PendingList: React.FC = () => {
           <i className="bi bi-bell"></i>
         )}
       </div>
-      <div className="requests-container flex flex-col">
-        <PendingCard isStudent />
-        <PendingCard isStudent />
-        <PendingCard isTeacher />
-        <PendingCard isTeacher />
-        <PendingCard isTeacher />
-        <PendingCard isStudent />
-        <PendingCard isStudent />
-        <PendingCard isStudent />
-        <PendingCard isFather />
-        <PendingCard isFather />
-        <PendingCard isFather />
-        <Pagination
-          currentPageNumber={currentPageNumber}
-          totalPages={totalPages}
-          paginate={paginate}
-          itemsPerPage={ITEMS_PER_PAGE}
-          isPending
-        />
-      </div>
+      {false ? (
+        <Loader />
+      ) : (
+        <div className="requests-container flex flex-col">
+          <PendingCard isStudent />
+          <PendingCard isStudent />
+          <PendingCard isTeacher />
+          <PendingCard isTeacher />
+          <PendingCard isTeacher />
+          <PendingCard isStudent />
+          <PendingCard isStudent />
+          <PendingCard isStudent />
+          <PendingCard isFather />
+          <PendingCard isFather />
+          <PendingCard isFather />
+          <Pagination
+            currentPageNumber={currentPageNumber}
+            totalPages={totalPages}
+            paginate={paginate}
+            itemsPerPage={ITEMS_PER_PAGE}
+            isPending
+          />
+        </div>
+      )}
     </div>
   );
 };

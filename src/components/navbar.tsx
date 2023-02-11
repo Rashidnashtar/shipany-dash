@@ -7,6 +7,7 @@ const Navbar: React.FC = () => {
     "/": 1,
     "/teachers": 2,
     "/books": 3,
+    "/subjects": 4,
   };
   type keys = "/" | "/teachers" | "/books";
   const [active, setActive] = useState(locationMap[location.pathname as keys]);
@@ -15,33 +16,50 @@ const Navbar: React.FC = () => {
     "cursor-pointer px-3 py-2 rounded-full text-white block hover:bg-main-transparent transition-all duration-300s ";
   return (
     <div className="main-nav bg-main-blue flex flex-col justify-center items-center gap-20 text-2xl ">
-      <NavLink
-        to="/"
-        onClick={() => {
-          setActive(1);
-        }}
-        className={anqerStyles + `${active === 1 ? activeStyles : ""}`}
-      >
-        <i className="bi bi-pencil  "></i>
-      </NavLink>
-      <NavLink
-        to="/teachers"
-        onClick={() => {
-          setActive(2);
-        }}
-        className={anqerStyles + `${active === 2 ? activeStyles : ""}`}
-      >
-        <i className="bi bi-mortarboard"></i>
-      </NavLink>
-      <NavLink
-        to="/books"
-        onClick={() => {
-          setActive(3);
-        }}
-        className={anqerStyles + `${active === 3 ? activeStyles : ""}`}
-      >
-        <i className="bi bi-journal-text"></i>
-      </NavLink>
+      <span title="الطلاب">
+        <NavLink
+          to="/"
+          onClick={() => {
+            setActive(1);
+          }}
+          className={anqerStyles + `${active === 1 ? activeStyles : ""}`}
+        >
+          <i className="bi bi-pencil  "></i>
+        </NavLink>
+      </span>
+      <span title="الأساتذة">
+        <NavLink
+          to="/teachers"
+          onClick={() => {
+            setActive(2);
+          }}
+          className={anqerStyles + `${active === 2 ? activeStyles : ""}`}
+        >
+          <i className="bi bi-mortarboard"></i>
+        </NavLink>
+      </span>
+      <span title="الكتب">
+        <NavLink
+          to="/books"
+          onClick={() => {
+            setActive(3);
+          }}
+          className={anqerStyles + `${active === 3 ? activeStyles : ""}`}
+        >
+          <i className="bi bi-book"></i>
+        </NavLink>
+      </span>
+      <span title="المواد">
+        <NavLink
+          to="/subjects"
+          onClick={() => {
+            setActive(4);
+          }}
+          className={anqerStyles + `${active === 4 ? activeStyles : ""}`}
+        >
+          <i className="bi bi-journal-text"></i>
+        </NavLink>
+      </span>
     </div>
   );
 };

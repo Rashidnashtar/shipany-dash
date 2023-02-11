@@ -6,6 +6,7 @@ interface props {
   isStudents?: boolean;
   isTeachers?: boolean;
   isBooks?: boolean;
+  isSubjects?: boolean;
 }
 const Main: React.FC<props> = (props) => {
   return (
@@ -13,7 +14,6 @@ const Main: React.FC<props> = (props) => {
       <Navbar />
       <Management {...props} />
       <PendingList />
-      <Outlet />
     </div>
   );
 };

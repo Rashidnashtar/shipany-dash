@@ -1,6 +1,10 @@
 import CustomInput from "./../components/assets/custom-input";
 import { isItAllNumbers } from "../assets/js/helpers";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, useRef } from "react";
+import { useMutation } from "react-query";
+import axios from "axios";
+import PageLoader from "../components/assets/page-loader";
+import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [userCred, setUserCred] = useState({
     phoneNumber: "",
@@ -10,7 +14,28 @@ const Login = () => {
     phoneNumber: "",
     password: "",
   });
+  const navigate = useNavigate();
 
+  const formRef = useRef(null);
+  const isvalid = () => {
+    // @ts-ignore
+    return formRef?.current?.checkValidity() || false;
+  };
+  // fetching ..................................................
+  const {
+    mutate: postLogin,
+    isLoading,
+    isError,
+    isSuccess,
+    data,
+  } = useMutation((data: { phoneNumber: string; password: string }) => {
+    return axios.post(
+      import.meta.env.VITE_REACT_APP_BACKEND_URI + "login",
+      data,
+      { headers: { Accept: "application/json" } }
+    );
+  });
+  // ...........................................................
   const handleChange = (
     value: string,
     name: string,
@@ -43,21 +68,34 @@ const Login = () => {
     event.preventDefault();
     // stting error message
     setFormErrors(validate(userCred));
+    if (isvalid()) {
+      postLogin(userCred);
+      setUserCred({ ...userCred, password: "" });
+    }
   };
-
+  if (isSuccess) {
+    console.log(data);
+    navigate("/join");
+    return <></>;
+  }
   return (
     <div className="ltr flex flex-col justify-center items-center h-screen pt-[5vh] p-2">
-      <h1 className="text-5xl mb-2  text-center">تسجيل دخول إلى الإدارة </h1>
-      <h4 className="text-xl text-main-gray">
+      <h1 className="text-2xl mb-2 sm:text-3xl md:text-4xl lg:text-5xl text-center">
+        تسجيل دخول إلى الإدارة{" "}
+      </h1>
+      <h4 className="text-sm lg:text-xl text-main-gray">
         من فضلك ادخل رقم الهاتف وكلمة المرور
       </h4>
 
-      <form className="w-1/3 p-4 bg-white rounded-md m-10">
+      <form
+        ref={formRef}
+        className="w-3/4 md:w-1/3 p-4 bg-white rounded-md m-10"
+      >
         <CustomInput
           id="ph-number"
           type="tel"
           name="phoneNumber"
-          placeholder="939214120" 
+          placeholder="939214120"
           pattern="^[9].{7}\d"
           arabicTitle=" رقم الهاتف"
           value={userCred.phoneNumber}
@@ -85,11 +123,17 @@ const Login = () => {
 
         <button
           onClick={handleSubmit}
+          disabled={isLoading}
           className="px-4 rounded text-white text-lg hover:bg-secandary-blue transition-all duration-300   py-1 bg-main-blue w-1/2 block mt-5 mx-auto"
         >
           دخول
         </button>
       </form>
+      {/* @ts-ignore */}
+      {isError && (
+        <p className="text-main-red">خطأ في الإتصال أو البيانات المدخلة</p>
+      )}
+      {isLoading && <PageLoader />}
     </div>
   );
 };
