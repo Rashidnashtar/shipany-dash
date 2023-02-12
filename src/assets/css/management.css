@@ -15,7 +15,7 @@
   border-bottom: 1px solid #ddd;
 }
 
-.management-card .btn-1 {
+.management-card .btn-1 { 
   color: white;
   background-color: var(--main-blue);
   transition: 0.3s;

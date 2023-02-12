@@ -5,11 +5,11 @@ import CustomSearch from "./assets/custom-search";
 import { useState, ChangeEvent } from "react";
 import { fetchApi, isItAllArabic } from "../assets/js/helpers";
 import { useQuery } from "react-query";
-
 import PageLoader from "./assets/page-loader";
 import CustomPopup from "./assets/custom-popup";
 import { useNavigate } from "react-router-dom";
 
+import useDelete from "../assets/hooks/useDelete";
 interface props {
   isStudents?: boolean;
   isTeachers?: boolean;
@@ -20,23 +20,30 @@ const Management: React.FC<props> = (props) => {
   const { isStudents, isTeachers, isBooks, isSubjects } = props;
   const navigate = useNavigate();
   // fetching .................................................
-  const fetchingName = `${isStudents
+  const fetchingName = `${
+    isStudents
       ? "students"
       : isTeachers
-        ? "teachers"
-        : isBooks
-          ? "books"
-          : isSubjects
-            ? "subjects"
-            : ""
-    }`;
-  const { isError, isLoading, data } = useQuery([fetchingName], () => fetchApi(fetchingName));
+      ? "teachers"
+      : isBooks
+      ? "books"
+      : isSubjects
+      ? "subjects"
+      : ""
+  }`;
+  const { isLoading, data } = useQuery(
+    [fetchingName],
+    () => fetchApi(fetchingName),
+    {
+      onError: () => {
+        console.log("kdsl;fjals;dkfjlkskadjflksdjflsdfjlsadflk");
+        navigate("/notfound");
+        return <></>;
+      },
+    }
+  );
   console.log(data);
-  if (isError) {
-    console.log("kdsl;fjals;dkfjlkskadjflksdjflsdfjlsadflk");
-    navigate("/notfound");
-    return <></>;
-  }
+
   // ..........................................................
 
   // pagination ...............................................
@@ -66,15 +73,27 @@ const Management: React.FC<props> = (props) => {
     setCurrentPageNumber(1);
   };
   // ............................................................
+
+  // delete handle ..............................................
   const [isDeleteAproved, setIsDeleteAproved] = useState(false);
   const [isPopupShown, setIsPopupShown] = useState(false);
   const [deleteId, setDeleteId] = useState(-1);
+  const deleteUrl = isStudents
+    ? `/delete_student/${deleteId}`
+    : isTeachers
+    ? `delete_user/${deleteId}`
+    : isBooks
+    ? `/books/${deleteId}'`
+    : isSubjects
+    ? `subjects/${deleteId}`
+    : "";
+  const { mutate } = useDelete(deleteUrl, "token", fetchingName);
   if (isDeleteAproved) {
-    console.log("deleting proccss");
+    mutate();
     setIsDeleteAproved(false);
-    console.log(deleteId);
-    console.log("deleting");
   }
+  // ............................................................
+
   return (
     <div className="management flex flex-col flex-1 p-3 ">
       <h1 className="text-main-blue text-4xl text-right mb-2 mx-auto ">

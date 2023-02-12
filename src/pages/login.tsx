@@ -6,9 +6,6 @@ import axios from "axios";
 import PageLoader from "../components/assets/page-loader";
 import { useNavigate } from "react-router-dom";
 const Login = () => {
-
-  // TODO: use the fetchApi here
-
   const [userCred, setUserCred] = useState({
     phoneNumber: "",
     password: "",
@@ -31,13 +28,9 @@ const Login = () => {
     isError,
     isSuccess,
     data,
-  } = useMutation((data: { phoneNumber: string; password: string }) => {
-    return axios.post(
-      import.meta.env.VITE_REACT_APP_BACKEND_URI + "login",
-      data,
-      { headers: { Accept: "application/json" } }
-    );
-  });
+  } = useMutation((data: { phoneNumber: string; password: string }) =>
+    fetchApi("login", "POST", data)
+  );
   // ...........................................................
   const handleChange = (
     value: string,

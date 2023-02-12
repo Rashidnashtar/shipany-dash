@@ -12,7 +12,7 @@ const CustomPopup: React.FC<props> = ({
 }) => {
   return (
     <div className="w-screen h-screen fixed top-0 left-0  bg-[#ffffffbc] flex justify-center z-50 items-center has-bg-color">
-      <div className="w-1/4 bg-white border-2 border-main-blue flex flex-col p-7   rounded">
+      <div className="w-3/4 sm:w-2/4 lg:w-1/4 bg-white border-2 border-main-blue flex flex-col p-7   rounded">
         <h2 className="mb-4">{title}</h2>
         <div className="mr-auto mt-3 text-white">
           <button

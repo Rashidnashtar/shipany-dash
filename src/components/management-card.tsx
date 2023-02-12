@@ -1,5 +1,6 @@
 import { getName } from "../assets/js/helpers";
-// import image from "../assets/images/image.jpg";
+import { useNavigate } from "react-router-dom";
+
 interface Props {
   setIsPopupShown: any;
   setId: any;
@@ -45,6 +46,7 @@ const ManagementCard: React.FC<Props> = ({
   subject_name,
   subject_description,
 }) => {
+  const navigate = useNavigate();
   return (
     <tr className="management-card p-4  ">
       {(isStudents || isTeachers) && (
@@ -70,7 +72,7 @@ const ManagementCard: React.FC<Props> = ({
             setIsPopupShown(true);
             setId(_id);
           }}
-          className="btn-2 focus:outline-none  px-4 mb-1 ml-1 rounded-sm"
+          className="btn-2 focus:outline-none   px-4 mb-1 ml-1 rounded-sm"
         >
           حذف
         </button>
@@ -80,7 +82,12 @@ const ManagementCard: React.FC<Props> = ({
           </button>
         )}
         {(isStudents || isTeachers) && (
-          <button className="btn-1 focus:outline-none  px-4 rounded-sm">
+          <button
+            onClick={() => {
+              navigate(`${isTeachers ? `/users/${_id}` : `/students/${_id}`}`);
+            }}
+            className="btn-1 focus:outline-none  text-inherit mb-1   px-4 rounded-sm"
+          >
             تفاصيل
           </button>
         )}
