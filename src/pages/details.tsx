@@ -2,22 +2,48 @@ import { useParams } from "react-router-dom";
 import nerdChild from "../assets/images/nerd-child.jpg";
 import { useState } from "react";
 import CustomPopup from "../components/assets/custom-popup";
+import useDelete from "./../assets/hooks/useDelete";
+import useAccept from "./../assets/hooks/useAccept";
 interface props {
   isStudent?: boolean;
   isUser?: boolean;
   isPending?: boolean;
 }
 const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
-  const Id = useParams();
+  const id = useParams();
+  //   handle Delete.......................................................
   const [isDeleteAproved, setIsDeleteAproved] = useState(false);
   const [isPopupShown, setIsPopupShown] = useState(false);
-  if (isDeleteAproved) {
-    console.log("deleting proccss");
-    setIsDeleteAproved(false);
-    console.log(Id);
-    console.log("deleting");
+  const deleteUrl = isUser ? `delete_user/${id}` : `delete_student/${id}`;
+  let reFetchName: string[] = [];
+  if (isPending) {
+    reFetchName = ["pending-teachers", "pending-students", "pending-fathers"];
   }
-  console.log(Id);
+  if (isStudent) {
+    reFetchName = [...reFetchName, "students"];
+  }
+  if (isUser) {
+    reFetchName = [...reFetchName, "teachers"];
+  }
+  const { mutate: deleteSelected } = useDelete(
+    deleteUrl,
+    "token",
+    ...reFetchName
+  );
+  if (isDeleteAproved) {
+    deleteSelected();
+    setIsDeleteAproved(false);
+  }
+  //   ......................................................................
+
+  //handle accept............................................................
+  const acceptUrl = isUser ? `/accept_user/${id}` : `/accept_student/${id}`;
+  const { mutate: acceptSelected } = useAccept(
+    acceptUrl,
+    "token",
+    ...reFetchName
+  );
+  // ........................................................................
   return (
     <div className="flex h-screen w-screen justify-center items-center p-1 pb-[5vh] ">
       {/* firstname last name  phone image /student fathername teachername score /book|subject decreption name photo  */}
@@ -45,16 +71,29 @@ const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
             النسبة: <span>نشتر</span>
           </p>
         </div>
-        <div className="flex text-xl sm:text-2xl md:text-3xl border-y border-main-border py-4 w-full mt-4 justify-evenly flex-wrap">
+        <div className="flex text-xl sm:text-2xl md:text-3xl border-y border-main-border py-8 w-full mt-4 justify-evenly flex-wrap">
           {isUser && (
             <p className="mx-3 mb-3">
               رقم الهاتف: <span>958712199</span>
             </p>
           )}
           {isStudent && (
-            <p className="mx-3 mb-3">
-              النتيجة: <span>95%</span>
-            </p>
+            <>
+              <h2 className="mb-3">النتيجة:</h2>
+              {!isPending ? (
+                <div className="mx-3 mb-3 h-5 bg-main-border w-full relative">
+                  <span
+                    style={{ width: "75%" }}
+                    className="absolute bg-main-blue h-full left-0 top-0"
+                  ></span>
+                  <span className="absolute bg-main-border text-xl p-1 rounded top-6 left-[73%]">
+                    75%
+                  </span>
+                </div>
+              ) : (
+                <p> لايوجد نتيجة حاليا</p>
+              )}
+            </>
           )}
         </div>
         <div className="flex justify-center gap-4">
@@ -68,7 +107,9 @@ const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
           </button>
           {isPending && (
             <button
-              onClick={() => {}}
+              onClick={() => {
+                acceptSelected();
+              }}
               className="focus:outline-none bg-main-blue hover:bg-secandary-blue text-white px-7 py-2  rounded-sm mt-4"
             >
               قبول

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import useDelete from "../assets/hooks/useDelete";
+import useAccept from "../assets/hooks/useAccept";
 import CustomPopup from "./assets/custom-popup";
 interface props {
   isTeacher?: boolean;
@@ -14,13 +15,15 @@ const PendingCard: React.FC<props> = ({
   isStudent,
   id,
 }) => {
+  const roleStyles = "text-xs font-bold text-right";
+
+  // delete handler........................................................
   const navigate = useNavigate();
   const [isDeleteAproved, setIsDeleteAproved] = useState(false);
   const [isPopupShown, setIsPopupShown] = useState(false);
 
-  const roleStyles = "text-xs font-bold text-right";
-  const fetchUrl =
-    isTeacher || isFather ? `accept_user/${id}` : `accept_student/${id}`;
+  const deleteUrl =
+    isTeacher || isFather ? `delete_user/${id}` : `delete_student/${id}`;
   const pendingFetchingName = isStudent
     ? `pending-students`
     : isTeacher
@@ -29,17 +32,28 @@ const PendingCard: React.FC<props> = ({
     ? `pending-fathers`
     : "";
   const FetchingName = isStudent ? "students" : isTeacher ? "teachers" : "";
-  const { mutate } = useDelete(
-    fetchUrl,
+  const { mutate: deleteSelected } = useDelete(
+    deleteUrl,
     "token",
     pendingFetchingName,
     FetchingName
   );
   if (isDeleteAproved) {
-    mutate();
+    deleteSelected();
     setIsDeleteAproved(false);
   }
+  // ..........................................................................
 
+  // accept handler............................................................
+  const acceptUrl =
+    isTeacher || isFather ? `accept_user/${id}` : `accept_student/${id}`;
+  const { mutate: acceptSelected } = useAccept(
+    acceptUrl,
+    "token",
+    pendingFetchingName,
+    FetchingName
+  );
+  // ..........................................................................
   return (
     <div className="flex border-b border-main-border px-2 py-1 items-center justify-between">
       <div className="flex flex-col justify-between">
@@ -52,7 +66,12 @@ const PendingCard: React.FC<props> = ({
         {isFather && <p className={roleStyles}>أب</p>}
       </div>
       <div className="flex gap-3  text-xl">
-        <span title="قبول">
+        <span
+          onClick={() => {
+            acceptSelected();
+          }}
+          title="قبول"
+        >
           <i className="bi bi-check-circle text-main-blue hover:text-secandary-blue cursor-pointer "></i>
         </span>
 
@@ -69,7 +88,9 @@ const PendingCard: React.FC<props> = ({
           title="تفاصيل"
           onClick={() => {
             navigate(
-              isTeacher || isFather ? `/users/${id}` : `/students/${id}`
+              isTeacher || isFather
+                ? `/pendingusers/${id}`
+                : `/pendingstudents/${id}`
             );
           }}
         >
