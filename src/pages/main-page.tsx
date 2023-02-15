@@ -10,7 +10,7 @@ interface props {
 }
 const Main: React.FC<props> = (props) => {
   return (
-    <div className="main-container h-screen flex flex-row-reverse gap-2  ">
+    <div className="main-container h-screen flex flex-row-reverse overflow-hidden gap-2  ">
       <Navbar />
       <Management {...props} />
       <PendingList />

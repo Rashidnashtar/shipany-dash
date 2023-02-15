@@ -18,7 +18,7 @@ interface props {
 //nice file name
 const Put: React.FC<props> = ({ isBook, isSubject, isEdit }) => {
   let initalData: any;
-  if (isEdit && isBook) {
+  if (isBook) {
     initalData = {
       name: "",
       description: "",
@@ -162,7 +162,7 @@ const Put: React.FC<props> = ({ isBook, isSubject, isEdit }) => {
           <h1 className="text-2xl  sm:text-3xl md:text-4xl lg:text-5xl text-center mb-4">
             {isEdit ? ` تعديل ${constrain}` : ` أضف ${constrain}`}
           </h1>
-          <form className="w-full sm:w-2/3 md:w-1/3 bg-white rounded border border-main-blue p-4 flex flex-col justify-evenly">
+          <form className="w-full sm:w-2/3 lg:w-1/3 bg-white rounded border border-main-blue p-4 flex flex-col justify-evenly">
             {isBook && (
               <>
                 <CustomImageInput
