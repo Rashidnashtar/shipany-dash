@@ -10,7 +10,9 @@ interface props {
   isPending?: boolean;
 }
 const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
-  const id = useParams();
+  const idName = isStudent ? "studentId" : isUser ? "userId" : "";
+  const id = useParams()[idName];
+  console.log(id);
   //   handle Delete.......................................................
   const [isDeleteAproved, setIsDeleteAproved] = useState(false);
   const [isPopupShown, setIsPopupShown] = useState(false);

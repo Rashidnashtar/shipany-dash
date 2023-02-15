@@ -88,7 +88,6 @@ const Login = () => {
         className="w-3/4 md:w-1/3 p-4 bg-white rounded-md m-10"
       >
         <CustomInput
-          id="ph-number"
           type="tel"
           name="phoneNumber"
           placeholder="939214120"
@@ -104,7 +103,6 @@ const Login = () => {
           <p className="text-main-red">{formErrors.phoneNumber}</p>
         )}
         <CustomInput
-          id="password"
           type="password"
           name="password"
           placeholder="*********"

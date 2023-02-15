@@ -1,13 +1,13 @@
 import { ChangeEvent } from "react";
+import { useId } from "react";
 import { isItAllArabic, isItAllNumbers } from "../../assets/js/helpers";
 import "../../assets/css/custom-input.css";
 interface props {
-  id: string;
   value: string;
   type: string;
   name: string;
   placeholder: string;
-  pattern: string;
+  pattern?: string;
   handleChange: any;
   arabicTitle: string;
   errorMsg?: string;
@@ -20,7 +20,6 @@ interface props {
   staticPhoneNum?: string;
 }
 const CustomInput: React.FC<props> = ({
-  id,
   value,
   type,
   name,
@@ -36,6 +35,7 @@ const CustomInput: React.FC<props> = ({
   isClassNumber,
   staticPhoneNum,
 }) => {
+  const id = useId();
   const handelLocalChange = (event: ChangeEvent) => {
     const { name, value, validity, parentElement } =
       event.target as HTMLInputElement;
@@ -90,7 +90,7 @@ const CustomInput: React.FC<props> = ({
       )}
       <span
         className={
-          "  absolute top-0 right-1 translate-y-8 text-lg pr-1 transition-all duration-300 peer-focus-within:-translate-y-2 wit  group-focus-within:-translate-y-3   " +
+          "  absolute top-0 right-1 translate-y-8 text-lg pr-1 transition-all duration-300 peer-focus-within:-translate-y-2   group-focus-within:-translate-y-3   " +
           " "
         }
         data-info={dataInfo}

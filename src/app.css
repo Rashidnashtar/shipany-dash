@@ -29,7 +29,10 @@ body::-webkit-scrollbar-thumb {
 }
 .notValid input,
 .notValid input:focus,
-.notValid input:focus + span {
+.notValid input:focus + span,
+.notValid textarea,
+.notValid textarea:focus,
+.notValid textarea:focus + span {
   border-color: var(--main-red);
 }
 .notValid span {

@@ -11,7 +11,8 @@
     font-size: 0.7em;
   }
 }
-.custom-label input:not(:placeholder-shown) + span {
+.custom-label input:not(:placeholder-shown) + span,
+.custom-label textarea:not(:placeholder-shown) + span {
   transform: translateY(-8px);
   -webkit-transform: translateY(-8px);
   -moz-transform: translateY(-8px);

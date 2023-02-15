@@ -36,7 +36,6 @@ const Management: React.FC<props> = (props) => {
     () => fetchApi(fetchingName),
     {
       onError: () => {
-        console.log("kdsl;fjals;dkfjlkskadjflksdjflsdfjlsadflk");
         navigate("/notfound");
         return <></>;
       },

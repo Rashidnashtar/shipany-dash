@@ -30,3 +30,30 @@ export const fetchApi = async (
     },
   });
 };
+export const fetchApiWithFile = async (
+  url: string,
+  method: string,
+  data: Object,
+  imgfile: any,
+  token?: string
+) => {
+  const formData = new FormData();
+  formData.append("image", imgfile);
+  Object.keys(data).forEach((key) => {
+    // @ts-ignore
+    formData.append(key, data[key]);
+  });
+  return axios({
+    url: import.meta.env.VITE_REACT_APP_BACKEND_URI + url,
+    method,
+    data: formData,
+    headers: {
+      Authorization: `bearer ${token}` || "",
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const getImageFromServer = (url: string) => {
+  return import.meta.env.VITE_REACT_APP_IMAGE_URI + url;
+};

@@ -6,6 +6,7 @@ import JoinRouteGuard from "./join-route-guard";
 import Login from "../pages/login";
 import NoFoundPage from "../components/assets/404";
 import Details from "../pages/details";
+import Put from "../pages/put";
 const Router: React.FC = () => {
   return (
     <Routes>
@@ -21,6 +22,14 @@ const Router: React.FC = () => {
           path="/pendingusers/:userId"
           element={<Details isUser isPending />}
         />
+        <Route path="add/book" element={<Put isBook />} />
+        <Route path="add/subject" element={<Put isSubject />} />
+        <Route path="edit/books/:bookId" element={<Put isBook isEdit />} />
+        <Route
+          path="edit/subjects/:subjectId"
+          element={<Put isSubject isEdit />}
+        />
+
         <Route path="/teachers" element={<Main isTeachers />} />
         <Route path="/books" element={<Main isBooks />} />
         <Route path="/subjects" element={<Main isSubjects />} />
