@@ -1,8 +1,7 @@
 import { Outlet, Navigate } from "react-router-dom";
 const PrivateRoute: React.FC = () => {
-
-  let auth = { token: true };
-  let joined = true;
+  let auth = { token: localStorage.getItem("token") };
+  let joined = sessionStorage.getItem("joined");
   if (auth.token && joined) {
     return <Outlet />;
   } else if (auth.token && !joined) {

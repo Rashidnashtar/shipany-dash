@@ -4,14 +4,23 @@
   box-shadow: 1px 0 10px 1px #ddd;
   position: relative;
 }
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1200px) {
+  .main-nav {
+    width: 6%;
+  }
+}
+@media screen and (max-width: 996px) {
   .main-nav {
     width: 8%;
-    
+  }
+}
+@media screen and (max-width: 768px) {
+  .main-nav {
+    width: 10%;
   }
 }
 @media screen and (max-width: 480px) {
   .main-nav {
-    width: 10%;
+    width: 12%;
   }
 }

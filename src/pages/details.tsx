@@ -10,6 +10,8 @@ interface props {
   isPending?: boolean;
 }
 const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
+  const token = localStorage.getItem("token");
+
   const idName = isStudent ? "studentId" : isUser ? "userId" : "";
   const id = useParams()[idName];
   console.log(id);
@@ -29,7 +31,7 @@ const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
   }
   const { mutate: deleteSelected } = useDelete(
     deleteUrl,
-    "token",
+    token!,
     ...reFetchName
   );
   if (isDeleteAproved) {
@@ -42,7 +44,7 @@ const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
   const acceptUrl = isUser ? `/accept_user/${id}` : `/accept_student/${id}`;
   const { mutate: acceptSelected } = useAccept(
     acceptUrl,
-    "token",
+    token!,
     ...reFetchName
   );
   // ........................................................................

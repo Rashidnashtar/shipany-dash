@@ -2,16 +2,16 @@ import CustomInput from "./../components/assets/custom-input";
 import { fetchApi, isItAllNumbers } from "../assets/js/helpers";
 import { FormEvent, useState, useRef } from "react";
 import { useMutation } from "react-query";
-import axios from "axios";
 import PageLoader from "../components/assets/page-loader";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Login = () => {
   const [userCred, setUserCred] = useState({
-    phoneNumber: "",
+    phone: "",
     password: "",
   });
   const [formErrors, setFormErrors] = useState({
-    phoneNumber: "",
+    phone: "",
     password: "",
   });
   const navigate = useNavigate();
@@ -27,9 +27,17 @@ const Login = () => {
     isLoading,
     isError,
     isSuccess,
-    data,
-  } = useMutation((data: { phoneNumber: string; password: string }) =>
-    fetchApi("login", "POST", data)
+  } = useMutation(
+    (data: { phone: string; password: string }) =>
+      fetchApi("login", "POST", data),
+    {
+      onSuccess: (data) => {
+        localStorage.setItem("token", data.data.token);
+        console.log(data);
+        toast.success("تم تسجيل الدخول بنجاح");
+        navigate("/join");
+      },
+    }
   );
   // ...........................................................
   const handleChange = (
@@ -45,15 +53,15 @@ const Login = () => {
   const validate = (values: any) => {
     // validation error message
     let errors = {
-      phoneNumber: "",
+      phone: "",
       password: "",
     };
     if (
-      !isItAllNumbers(values.phoneNumber) ||
-      values.phoneNumber.length < 9 ||
-      values.phoneNumber[0] !== "9"
+      !isItAllNumbers(values.phone) ||
+      values.phone.length < 9 ||
+      values.phone[0] !== "9"
     ) {
-      errors.phoneNumber = "رجاءً اكتب رقم صحيح";
+      errors.phone = "رجاءً اكتب رقم صحيح";
     }
     if (values.password.length < 8) {
       errors.password = "يجب ان تكون أكثر من ثماني أحرف";
@@ -70,8 +78,6 @@ const Login = () => {
     }
   };
   if (isSuccess) {
-    console.log(data);
-    navigate("/join");
     return <></>;
   }
   return (
@@ -85,22 +91,22 @@ const Login = () => {
 
       <form
         ref={formRef}
-        className="w-3/4 md:w-1/3 p-4 bg-white rounded-md m-10"
+        className="w-full sm:w-3/4 md:w-2/4 lg:w-1/3 p-4 bg-white rounded-md m-10"
       >
         <CustomInput
           type="tel"
-          name="phoneNumber"
+          name="phone"
           placeholder="939214120"
           pattern="^[9].{7}\d"
           arabicTitle=" رقم الهاتف"
-          value={userCred.phoneNumber}
+          value={userCred.phone}
           handleChange={handleChange}
           dataInfo="(ادخل الرقم بدون الصفر)"
           staticPhoneNum="963+"
           isPhone
         />
-        {formErrors.phoneNumber && (
-          <p className="text-main-red">{formErrors.phoneNumber}</p>
+        {formErrors.phone && (
+          <p className="text-main-red">{formErrors.phone}</p>
         )}
         <CustomInput
           type="password"

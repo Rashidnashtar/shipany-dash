@@ -17,6 +17,7 @@ interface props {
   isSubjects?: boolean;
 }
 const Management: React.FC<props> = (props) => {
+  const token = localStorage.getItem("token");  
   const { isStudents, isTeachers, isBooks, isSubjects } = props;
   const navigate = useNavigate();
   // fetching .................................................
@@ -33,7 +34,7 @@ const Management: React.FC<props> = (props) => {
   }`;
   const { isLoading, data } = useQuery(
     [fetchingName],
-    () => fetchApi(fetchingName),
+    () => fetchApi(fetchingName, undefined, undefined, token!),
     {
       onError: () => {
         navigate("/notfound");
@@ -86,7 +87,7 @@ const Management: React.FC<props> = (props) => {
     : isSubjects
     ? `subjects/${deleteId}`
     : "";
-  const { mutate } = useDelete(deleteUrl, "token", fetchingName);
+  const { mutate } = useDelete(deleteUrl, token!, fetchingName);
   if (isDeleteAproved) {
     mutate();
     setIsDeleteAproved(false);

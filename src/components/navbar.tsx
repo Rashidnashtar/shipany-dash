@@ -1,9 +1,13 @@
 import { useRef, useState } from "react";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import useClickOutSide from "../assets/hooks/useClickOutside";
+import { useMutation } from "react-query";
 import "../assets/css/nav.css";
+import { fetchApi } from "../assets/js/helpers";
+import { toast } from "react-toastify";
 const Navbar: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const addListRef = useRef(null);
   const locationMap = {
     "/": 1,
@@ -20,8 +24,23 @@ const Navbar: React.FC = () => {
   const anqerStyles =
     "cursor-pointer px-3 py-2 rounded-full text-white block hover:bg-main-transparent transition-all duration-300s ";
   useClickOutSide(setAddActive, addListRef);
+  const token = localStorage.getItem("token");
+  const { mutate } = useMutation(
+    () => fetchApi("logout", "GET", undefined, token!),
+    {
+      onSuccess: () => {
+        navigate("/login");
+        sessionStorage.removeItem("joined");
+        localStorage.removeItem("token");
+        toast.success("تم تسجيل الخروج بنجاح");
+      },
+      onError: () => {
+        toast.error("حدث خطأ في تسجيل الخروج");
+      },
+    }
+  );
   return (
-    <div className="main-nav  bg-main-blue flex flex-col justify-center items-center gap-20 text-2xl ">
+    <div className="main-nav  bg-main-blue flex flex-col justify-evenly items-center  text-2xl ">
       <span title="الطلاب">
         <NavLink
           to="/"
@@ -88,6 +107,16 @@ const Navbar: React.FC = () => {
           <Link className="block border-b border-b-main-gray" to="/add/subject">
             مادة جديد
           </Link>
+        </div>
+      </span>
+      <span title="تسجيل خروج">
+        <div
+          onClick={() => {
+            mutate();
+          }}
+          className={anqerStyles}
+        >
+          <i className="bi bi-box-arrow-left"></i>
         </div>
       </span>
     </div>

@@ -17,6 +17,8 @@ interface props {
 }
 //nice file name
 const Put: React.FC<props> = ({ isBook, isSubject, isEdit }) => {
+  const token = localStorage.getItem("token");
+
   let initalData: any;
   if (isBook) {
     initalData = {
@@ -48,7 +50,7 @@ const Put: React.FC<props> = ({ isBook, isSubject, isEdit }) => {
 
   const { isLoading } = useQuery(
     [fetchingName],
-    () => fetchApi(`${fetchingName}s/${id}`, undefined, undefined, "token"),
+    () => fetchApi(`${fetchingName}s/${id}`, undefined, undefined, token!),
     {
       onSuccess: (data) => {
         console.log(data);
@@ -133,22 +135,26 @@ const Put: React.FC<props> = ({ isBook, isSubject, isEdit }) => {
   const { isLoading: isLoadingBooks, mutate: addBook } = usePut(
     "books",
     "POST",
+    token!,
     "books"
   );
   const { isLoading: isLoadingBook, mutate: putBook } = usePut(
     `books/${id}`,
     "PUT",
+    token!,
     "books"
   );
 
   const { isLoading: isLoadingSubjects, mutate: addSubject } = usePut(
     "subjects",
     "POST",
+    token!,
     "subjects"
   );
   const { isLoading: isLoadingSubject, mutate: putSubject } = usePut(
     `subjects/${id}`,
     "PUT",
+    token!,
     "subjects"
   );
 

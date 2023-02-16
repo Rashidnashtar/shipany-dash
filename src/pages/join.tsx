@@ -9,6 +9,7 @@ const Join: React.FC = () => {
     event.preventDefault();
     if (import.meta.env.VITE_REACT_ADMIN_PASSWORD === password) {
       toast.success("مرحباً بك سيد راسي");
+      sessionStorage.setItem("joined", "joined123");
       navigate("/");
     } else {
       setIsValid(false);
@@ -19,7 +20,7 @@ const Join: React.FC = () => {
     <div className="h-screen bg-main-bg-color flex justify-center items-center  ">
       <form
         onSubmit={handleSubmit}
-        className="flex flex-col w-1/3  bg-white border shadow shadow-main-gray text-center p-3 rounded gap-3"
+        className="flex flex-col w-full sm:w-3/4 md:w-1/2 lg:w-1/3  bg-white border shadow shadow-main-gray text-center p-3 rounded gap-3"
       >
         <h1 className="mb-2 text-2xl">ادخل كلمة المرور </h1>
 

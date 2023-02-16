@@ -23,7 +23,7 @@ export const fetchApi = async (
     method: method || "GET",
     data,
     headers: {
-      Authorization: `bearer ${token}` || "",
+      Authorization: `Bearer ${token}` || "",
       "Content-Type": `${
         !isMulter ? "application/json" : "multipart/form-data"
       }`,

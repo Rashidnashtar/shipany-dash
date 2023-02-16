@@ -7,9 +7,13 @@ import Loader from "./assets/loader";
 import { fetchApi } from "../assets/js/helpers";
 import useClickOutSide from "./../assets/hooks/useClickOutside";
 const PendingList: React.FC = () => {
-  const fetchPendingTeachers = () => fetchApi("all_pending_teachers");
-  const fetchPendingStudents = () => fetchApi("all_pending_students");
-  const fetchPendingFathers = () => fetchApi("all_pending_fathers");
+  const token = localStorage.getItem("token");
+  const fetchPendingTeachers = () =>
+    fetchApi("all_pending_teachers", "GET", undefined, token!);
+  const fetchPendingStudents = () =>
+    fetchApi("all_pending_students", "GET", undefined, token!);
+  const fetchPendingFathers = () =>
+    fetchApi("all_pending_fathers", "GET", undefined, token!);
 
   const [active, setActive] = useState(0);
   // handle fetching ..........................................

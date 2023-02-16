@@ -16,6 +16,7 @@ const PendingCard: React.FC<props> = ({
   id,
 }) => {
   const roleStyles = "text-xs font-bold text-right";
+  const token = localStorage.getItem("token");
 
   // delete handler........................................................
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const PendingCard: React.FC<props> = ({
   const FetchingName = isStudent ? "students" : isTeacher ? "teachers" : "";
   const { mutate: deleteSelected } = useDelete(
     deleteUrl,
-    "token",
+    token!,
     pendingFetchingName,
     FetchingName
   );
@@ -49,7 +50,7 @@ const PendingCard: React.FC<props> = ({
     isTeacher || isFather ? `accept_user/${id}` : `accept_student/${id}`;
   const { mutate: acceptSelected } = useAccept(
     acceptUrl,
-    "token",
+    token!,
     pendingFetchingName,
     FetchingName
   );

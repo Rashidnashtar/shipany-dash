@@ -2,14 +2,19 @@ import { useMutation } from "react-query";
 import { fetchApi, fetchApiWithFile } from "../js/helpers";
 import { useQueryClient } from "react-query";
 import { toast } from "react-toastify";
-const usePut = (url: string, methode: string, ...reFetchingNames: string[]) => {
+const usePut = (
+  url: string,
+  methode: string,
+  token: string,
+  ...reFetchingNames: string[]
+) => {
   const queryClient = useQueryClient();
   return useMutation(
     (data: { data?: { name: string; description: string }; image?: any }) => {
       if (!data.image) {
-        return fetchApi(url, methode, data.data, "token");
+        return fetchApi(url, methode, data.data, token);
       }
-      return fetchApiWithFile(url, methode, !data.data, data.image, "token");
+      return fetchApiWithFile(url, methode, !data.data, data.image, token);
     },
     {
       onSuccess: () => {
