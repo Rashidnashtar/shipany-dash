@@ -112,7 +112,7 @@ const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
           {isPending && (
             <button
               onClick={() => {
-                acceptSelected();
+                acceptSelected({ teacher_id: id });
               }}
               className="focus:outline-none bg-main-blue hover:bg-secandary-blue text-white px-7 py-2  rounded-sm mt-4"
             >
@@ -124,7 +124,7 @@ const Details: React.FC<props> = ({ isStudent, isUser, isPending }) => {
       {isPopupShown && (
         <CustomPopup
           title="هل أنتة متأكد من الحذف؟"
-          setIsApproved={setIsDeleteAproved}
+          asyncFunc={deleteSelected}
           setIsPopupShown={setIsPopupShown}
         />
       )}

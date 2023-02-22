@@ -2,7 +2,7 @@ import React from "react";
 
 // START // styles for pagination section
 const paginationContainerStyle =
-  "flex flex-row-reverse  mt-8 lg:border lg:border-white lg:rounded-md py-2 lg:px-4 mx-auto mb-3 mt-auto";
+  "flex flex-row-reverse  mt-8  lg:rounded-md py-2 lg:px-4 mx-auto mb-3 mt-auto";
 const numberStyle =
   "block text-white cursor-pointer rounded-lg w-[20px]  bg-main-blue  text-center hover:bg-secandary-blue duration-200 selcet-none ";
 const textStyle =

@@ -13,7 +13,7 @@ const Main: React.FC<props> = (props) => {
     <div className="main-container h-screen flex flex-row-reverse overflow-hidden gap-2  ">
       <Navbar />
       <Management {...props} />
-      <PendingList />
+      <PendingList isUser={props.isTeachers} />
     </div>
   );
 };

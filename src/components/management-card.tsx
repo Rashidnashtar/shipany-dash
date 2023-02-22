@@ -17,12 +17,9 @@ interface Props {
   // // if student
   class_number?: number;
 
-  // // if book
-  book_name?: string;
+  // // if book | subject
+  name?: string;
   description?: string;
-  // //if subject
-  subject_name?: string;
-  subject_description?: string;
 
   // // all
   // image: string;
@@ -38,31 +35,23 @@ const ManagementCard: React.FC<Props> = ({
   isSubjects,
   first_name,
   last_name,
-  father_name,
   phone_number,
-  class_number,
-  book_name,
+
+  name,
   description,
-  subject_name,
-  subject_description,
 }) => {
   const navigate = useNavigate();
   return (
-    <tr className="management-card p-4  ">
+    <tr className="management-card p-4 h-16  ">
       {(isStudents || isTeachers) && (
-        <>
-          <td className=" font-bold">{getName("محمد رشيد", "أحمد", "نشتر")}</td>
-          <td className="">958712199</td>
-        </>
+        <td className=" font-bold">{first_name + " " + last_name}</td>
       )}
       {isStudents && <td className="">2</td>}
+      {isTeachers && <td className="">{phone_number}</td>}
       {(isBooks || isSubjects) && (
         <>
-          <td className="whitespace-nowrap">صحيح البخاري</td>
-          <td className="description text-xs  text-ellipsis ">
-            ابجد هوزابجد هوزابجد هوزابجد هوزابجد هوزابجد هوزابجد هوزابجد هوزابجد
-            هوزابجد هوزابجد هوز
-          </td>
+          <td className="whitespace-nowrap">{name}</td>
+          <td className="description text-xs  text-ellipsis ">{description}</td>
         </>
       )}
 
@@ -77,7 +66,15 @@ const ManagementCard: React.FC<Props> = ({
           حذف
         </button>
         {(isBooks || isSubjects) && (
-          <button className="btn-1 focus:outline-none  px-4 rounded-sm">
+          <button
+            onClick={() => {
+              navigate(
+                `${isBooks ? `/edit/books/${_id}` : `/edit/subjects/${_id}`}`
+              );
+              
+            }}
+            className="btn-1 focus:outline-none  px-4 rounded-sm"
+          >
             تعديل
           </button>
         )}

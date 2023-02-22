@@ -6,41 +6,38 @@ import { useQuery } from "react-query";
 import Loader from "./assets/loader";
 import { fetchApi } from "../assets/js/helpers";
 import useClickOutSide from "./../assets/hooks/useClickOutside";
-const PendingList: React.FC = () => {
+import { getItemsBetweenTowIndexes } from "./../assets/js/helpers";
+
+interface props {
+  isUser?: boolean;
+}
+const PendingList: React.FC<props> = ({ isUser }) => {
   const token = localStorage.getItem("token");
-  const fetchPendingTeachers = () =>
-    fetchApi("all_pending_teachers", "GET", undefined, token!);
-  const fetchPendingStudents = () =>
-    fetchApi("all_pending_students", "GET", undefined, token!);
-  const fetchPendingFathers = () =>
-    fetchApi("all_pending_fathers", "GET", undefined, token!);
+
+  const fetchingName = isUser ? "all_pending_users" : "all_pending_students";
+  const fetchPending = () => fetchApi(fetchingName, "GET", undefined, token!);
 
   const [active, setActive] = useState(0);
   // handle fetching ..........................................
-  const { isLoading: isLoadingTeachers, data: teachersData } = useQuery(
-    ["pending-teachers"],
-    fetchPendingTeachers
-  );
-  const { isLoading: isLoadingStudents, data: studentData } = useQuery(
-    ["pending-students"],
-    fetchPendingStudents
-  );
-  const { isLoading: isLoadingFathers, data: fathersData } = useQuery(
-    ["pending-fathers"],
-    fetchPendingFathers
-  );
+
+  const { isLoading: isLoading, data } = useQuery([fetchingName], fetchPending);
+  console.log(data?.data);
+
   // ..........................................................
 
   // pagination ...............................................
   //TODO: move it to ustom hook if you can
-  const ITEMS_PER_PAGE = 30;
+  const ITEMS_PER_PAGE = 8;
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   // declare the min and max
   const min = ITEMS_PER_PAGE * (currentPageNumber - 1);
   const max = currentPageNumber * ITEMS_PER_PAGE;
   // @ts-ignore
-  const totalPages = 100;
-  // const totalPages = data?.data.length || 0;
+  // const totalPages = 100;
+
+  const totalPages = (isUser ? data?.data.length : data?.data.length) || 0;
+
+  console.log(totalPages);
   // handel pagination
   const paginate = (current: number) => {
     setCurrentPageNumber(current);
@@ -53,6 +50,17 @@ const PendingList: React.FC = () => {
 
   // ............................................................
 
+  const displayList = (list: any[]) => {
+    return getItemsBetweenTowIndexes(list, min, max).map((item: any) => (
+      <PendingCard
+        first_name={item.first_name}
+        last_name={item.last_name}
+        isUser={isUser}
+        key={item.id}
+        id={item.id}
+      />
+    ));
+  };
   return (
     <div
       ref={ref}
@@ -61,7 +69,7 @@ const PendingList: React.FC = () => {
       }`}
     >
       <h1 className="text-main-blue text-center text-2xl mb-2  ">
-        الطلبات المعلقة
+        {isUser ? "طلبات المستخدمين المعلقة" : " طلبات الطلاب المعلقة المعلقة"}
       </h1>
       <div
         onClick={() => {
@@ -77,21 +85,19 @@ const PendingList: React.FC = () => {
           <i className="bi bi-bell"></i>
         )}
       </div>
-      {false ? (
+      {isLoading ? (
         <Loader />
       ) : (
         <div className="requests-container flex flex-col">
-          <PendingCard isStudent id={1} />
-          <PendingCard isStudent id={2} />
-          <PendingCard isTeacher id={3} />
-          <PendingCard isTeacher id={4} />
-          <PendingCard isTeacher id={5} />
-          <PendingCard isStudent id={6} />
-          <PendingCard isStudent id={1} />
-          <PendingCard isStudent id={1} />
-          <PendingCard isFather id={1} />
-          <PendingCard isFather id={1} />
-          <PendingCard isFather id={1} />
+          {data?.data.length ? (
+            isUser ? (
+              displayList(data.data)
+            ) : (
+              displayList(data.data)
+            )
+          ) : (
+            <h4 className="text-center "> لايوجد طلبات لعرضها</h4>
+          )}
           <Pagination
             currentPageNumber={currentPageNumber}
             totalPages={totalPages}

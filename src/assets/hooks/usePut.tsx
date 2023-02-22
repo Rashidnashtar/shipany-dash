@@ -18,7 +18,7 @@ const usePut = (
     },
     {
       onSuccess: () => {
-        toast.success("تمت الإضافة بنجاح");
+        toast.success("تمت العملية بنجاح");
         reFetchingNames.forEach((name) => {
           queryClient.invalidateQueries(name);
         });

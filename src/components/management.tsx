@@ -10,6 +10,7 @@ import CustomPopup from "./assets/custom-popup";
 import { useNavigate } from "react-router-dom";
 
 import useDelete from "../assets/hooks/useDelete";
+import { getItemsBetweenTowIndexes } from "./../assets/js/helpers";
 interface props {
   isStudents?: boolean;
   isTeachers?: boolean;
@@ -17,7 +18,7 @@ interface props {
   isSubjects?: boolean;
 }
 const Management: React.FC<props> = (props) => {
-  const token = localStorage.getItem("token");  
+  const token = localStorage.getItem("token");
   const { isStudents, isTeachers, isBooks, isSubjects } = props;
   const navigate = useNavigate();
   // fetching .................................................
@@ -53,8 +54,7 @@ const Management: React.FC<props> = (props) => {
   const min = ITEMS_PER_PAGE * (currentPageNumber - 1);
   const max = currentPageNumber * ITEMS_PER_PAGE;
   // @ts-ignore
-  const totalPages = 100;
-  // const totalPages = data?.data.length || 0;
+  const totalPages = data?.data.length || 1;
   // handel pagination
   const paginate = (current: number) => {
     setCurrentPageNumber(current);
@@ -75,7 +75,6 @@ const Management: React.FC<props> = (props) => {
   // ............................................................
 
   // delete handle ..............................................
-  const [isDeleteAproved, setIsDeleteAproved] = useState(false);
   const [isPopupShown, setIsPopupShown] = useState(false);
   const [deleteId, setDeleteId] = useState(-1);
   const deleteUrl = isStudents
@@ -88,10 +87,10 @@ const Management: React.FC<props> = (props) => {
     ? `subjects/${deleteId}`
     : "";
   const { mutate } = useDelete(deleteUrl, token!, fetchingName);
-  if (isDeleteAproved) {
-    mutate();
-    setIsDeleteAproved(false);
-  }
+  // if (isDeleteAproved) {
+  //   mutate();
+  //   setIsDeleteAproved(false);
+  // }
   // ............................................................
 
   return (
@@ -108,66 +107,79 @@ const Management: React.FC<props> = (props) => {
         <PageLoader />
       ) : (
         <>
-          <table className=" flex-1 text-center text-sm sm:text-xl  ">
-            <thead>
-              <tr className=" p-4  font-bold">
-                {(isStudents || isTeachers) && <th className=" ">الاسم</th>}
-                {(isStudents || isTeachers) && <th className="">الرقم</th>}
-                {isStudents && <th className="">الصف</th>}
-                {isBooks && (
-                  <>
-                    <th className="">اسم الكتاب</th>
-                    <th className="  ">وصف الكتاب</th>
-                  </>
+          {data?.data.length === 0 ? (
+            <h1 className="text-center">لا يوجد عناصر لعرضها</h1>
+          ) : (
+            <table className="  text-center text-sm sm:text-xl  ">
+              <thead>
+                <tr className=" p-4  font-bold h-16">
+                  {(isStudents || isTeachers) && <th className=" ">الاسم</th>}
+                  {isTeachers && <th className="">الرقم</th>}
+                  {isStudents && <th className="">الصف</th>}
+                  {isBooks && (
+                    <>
+                      <th className="">اسم الكتاب</th>
+                      <th className="  ">وصف الكتاب</th>
+                    </>
+                  )}
+                  {isSubjects && (
+                    <>
+                      <th className="">اسم المادة</th>
+                      <th className="  ">وصف المادة</th>
+                    </>
+                  )}
+                  <th>{""}</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {getItemsBetweenTowIndexes(data?.data, min, max).map(
+                  (item, i) => {
+                    if (isStudents) {
+                      return (
+                        <ManagementCard
+                          key={i}
+                          _id={item.id}
+                          {...props}
+                          setIsPopupShown={setIsPopupShown}
+                          setId={setDeleteId}
+                          first_name={item.first_name}
+                          last_name={item.last_name}
+                        />
+                      );
+                    }
+                    if (isTeachers) {
+                      return (
+                        <ManagementCard
+                          key={i}
+                          _id={item.teacher_id}
+                          {...props}
+                          setIsPopupShown={setIsPopupShown}
+                          setId={setDeleteId}
+                          first_name={item.user.first_name}
+                          last_name={item.user.last_name}
+                        />
+                      );
+                    }
+                    if (isBooks || isSubjects) {
+                      return (
+                        <ManagementCard
+                          key={i}
+                          _id={item.id}
+                          {...props}
+                          setIsPopupShown={setIsPopupShown}
+                          setId={setDeleteId}
+                          name={item.name}
+                          description={item.description}
+                        />
+                      );
+                    }
+                  }
                 )}
-                {isSubjects && (
-                  <>
-                    <th className="">اسم المادة</th>
-                    <th className="  ">وصف المادة</th>
-                  </>
-                )}
-                <th>{""}</th>
-              </tr>
-            </thead>
-            <tbody>
-              <ManagementCard
-                _id={1}
-                {...props}
-                setIsPopupShown={setIsPopupShown}
-                setId={setDeleteId}
-              />
-              <ManagementCard
-                _id={2}
-                {...props}
-                setIsPopupShown={setIsPopupShown}
-                setId={setDeleteId}
-              />
-              <ManagementCard
-                {...props}
-                _id={3}
-                setIsPopupShown={setIsPopupShown}
-                setId={setDeleteId}
-              />
-              <ManagementCard
-                _id={4}
-                {...props}
-                setIsPopupShown={setIsPopupShown}
-                setId={setDeleteId}
-              />
-              <ManagementCard
-                _id={5}
-                {...props}
-                setIsPopupShown={setIsPopupShown}
-                setId={setDeleteId}
-              />
-              <ManagementCard
-                _id={6}
-                {...props}
-                setIsPopupShown={setIsPopupShown}
-                setId={setDeleteId}
-              />
-            </tbody>
-          </table>
+              </tbody>
+            </table>
+          )}
+
           <Pagination
             currentPageNumber={currentPageNumber}
             totalPages={totalPages}
@@ -177,7 +189,7 @@ const Management: React.FC<props> = (props) => {
           {isPopupShown && (
             <CustomPopup
               title="هل انتة متأكد من الحذف"
-              setIsApproved={setIsDeleteAproved}
+              asyncFunc={mutate}
               setIsPopupShown={setIsPopupShown}
             />
           )}

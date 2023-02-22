@@ -9,8 +9,8 @@ const useAccept = (
 ) => {
   const queryClient = useQueryClient();
   return useMutation(
-    () => {
-      return fetchApi(url, "POST", undefined, token);
+    (data: any) => {
+      return fetchApi(url, "POST", data, token);
     },
     {
       onSuccess: () => {

@@ -57,3 +57,21 @@ export const fetchApiWithFile = async (
 export const getImageFromServer = (url: string) => {
   return import.meta.env.VITE_REACT_APP_IMAGE_URI + url;
 };
+
+export const getItemsBetweenTowIndexes = (
+  array: Array<any>,
+  min: number,
+  max: number
+) => {
+  if (!!array) return array.slice(min, max);
+  else return [];
+};
+
+export const searchInArray = (
+  array: any,
+  searchValue: string,
+  constrain: string
+) =>
+  array.filter((constrain) =>
+    getName(first_name, father_name, last_name).includes(searchValue)
+  );
