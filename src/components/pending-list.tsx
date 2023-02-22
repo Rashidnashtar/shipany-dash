@@ -27,7 +27,7 @@ const PendingList: React.FC<props> = ({ isUser }) => {
 
   // pagination ...............................................
   //TODO: move it to ustom hook if you can
-  const ITEMS_PER_PAGE = 8;
+  const ITEMS_PER_PAGE = 10;
   const [currentPageNumber, setCurrentPageNumber] = useState(1);
   // declare the min and max
   const min = ITEMS_PER_PAGE * (currentPageNumber - 1);

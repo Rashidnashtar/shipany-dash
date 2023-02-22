@@ -68,10 +68,15 @@ export const getItemsBetweenTowIndexes = (
 };
 
 export const searchInArray = (
-  array: any,
+  array: any[],
   searchValue: string,
   constrain: string
-) =>
-  array.filter((constrain) =>
-    getName(first_name, father_name, last_name).includes(searchValue)
-  );
+) => {
+  return array.filter((ele) => {
+    if (constrain === "full_name") {
+      let name = ele["first_name"] + " " + ele["last_name"];
+      return name.includes(searchValue);
+    }
+    return ele[constrain].includes(searchValue);
+  });
+};

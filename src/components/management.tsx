@@ -10,7 +10,10 @@ import CustomPopup from "./assets/custom-popup";
 import { useNavigate } from "react-router-dom";
 
 import useDelete from "../assets/hooks/useDelete";
-import { getItemsBetweenTowIndexes } from "./../assets/js/helpers";
+import {
+  getItemsBetweenTowIndexes,
+  searchInArray,
+} from "./../assets/js/helpers";
 interface props {
   isStudents?: boolean;
   isTeachers?: boolean;
@@ -64,14 +67,17 @@ const Management: React.FC<props> = (props) => {
   // search handler .............................................
 
   const [searchValue, setSearchValue] = useState("");
+  const searchConstrain = isBooks || isSubjects ? "name" : "full_name";
   const handleSearch = (event: ChangeEvent) => {
     const { value } = event.target as HTMLInputElement;
-    if (!isItAllArabic(value)) {
-      return;
-    }
+
     setSearchValue(value);
     setCurrentPageNumber(1);
   };
+  let proccedData = !!searchValue
+    ? searchInArray(data?.data, searchValue, searchConstrain)
+    : data?.data;
+  console.log(proccedData);
   // ............................................................
 
   // delete handle ..............................................
@@ -87,10 +93,7 @@ const Management: React.FC<props> = (props) => {
     ? `subjects/${deleteId}`
     : "";
   const { mutate } = useDelete(deleteUrl, token!, fetchingName);
-  // if (isDeleteAproved) {
-  //   mutate();
-  //   setIsDeleteAproved(false);
-  // }
+
   // ............................................................
 
   return (
@@ -99,7 +102,7 @@ const Management: React.FC<props> = (props) => {
         إدارة
       </h1>
       <CustomSearch
-        placeholder="ابحث باللغة العربية.......... "
+        placeholder="ابحث .......... "
         searchValue={searchValue}
         handleSearch={handleSearch}
       />
@@ -107,7 +110,7 @@ const Management: React.FC<props> = (props) => {
         <PageLoader />
       ) : (
         <>
-          {data?.data.length === 0 ? (
+          {proccedData.length === 0 ? (
             <h1 className="text-center">لا يوجد عناصر لعرضها</h1>
           ) : (
             <table className="  text-center text-sm sm:text-xl  ">
@@ -133,7 +136,7 @@ const Management: React.FC<props> = (props) => {
               </thead>
 
               <tbody>
-                {getItemsBetweenTowIndexes(data?.data, min, max).map(
+                {getItemsBetweenTowIndexes(proccedData, min, max).map(
                   (item, i) => {
                     if (isStudents) {
                       return (
